@@ -13,31 +13,31 @@
       device-orientation-permission-ui="enabled: false"
     >
       <a-assets>
-        <video id="lavaVideo" src="./assets/Lava.mp4" preload="auto" crossorigin="anonymous" loop muted></video>
-        <video id="clockVideo" src="./assets/Clock.mp4" preload="auto" crossorigin="anonymous" loop muted></video>
+        <video id="lavaVideo" src="./assets/Lava.mp4" preload="auto" crossorigin="anonymous" loop muted playsinline></video>
+        <video id="clockVideo" src="./assets/Clock.mp4" preload="auto" crossorigin="anonymous" loop muted playsinline></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- CORRETTO: targetIndex 0 ora avvia Lava -->
       <a-entity mindar-image-target="targetIndex: 0" id="target0">
         <a-video 
           src="#lavaVideo" 
-          width="1" 
-          height="0.5625" 
+          width="1.1" 
+          height="0.61875" 
           position="0 0 0" 
           rotation="0 0 0"
-          autoplay
         ></a-video>
       </a-entity>
 
+      <!-- CORRETTO: targetIndex 1 ora avvia Clock -->
       <a-entity mindar-image-target="targetIndex: 1" id="target1">
         <a-video 
           src="#clockVideo" 
-          width="1" 
-          height="0.5625" 
+          width="1.1" 
+          height="0.61875" 
           position="0 0 0" 
           rotation="0 0 0"
-          autoplay
         ></a-video>
       </a-entity>
     </a-scene>
@@ -50,6 +50,7 @@
         const target0 = document.querySelector("#target0");
         const target1 = document.querySelector("#target1");
 
+        // forza play al target 0 (Lava)
         target0.addEventListener("targetFound", () => {
           lavaVideo.play();
         });
@@ -57,6 +58,7 @@
           lavaVideo.pause();
         });
 
+        // forza play al target 1 (Clock)
         target1.addEventListener("targetFound", () => {
           clockVideo.play();
         });
