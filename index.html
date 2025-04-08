@@ -1,37 +1,69 @@
-<!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-    </head>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  </head>
+  <body>
+    <a-scene 
+      mindar-image="imageTargetSrc: ./assets/targets4.mind; maxTrack: 2" 
+      color-space="sRGB" 
+      renderer="colorManagement: true, physicallyCorrectLights" 
+      vr-mode-ui="enabled: false" 
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-assets>
+        <video id="lavaVideo" src="./assets/Lava.mp4" preload="auto" crossorigin="anonymous" loop muted></video>
+        <video id="clockVideo" src="./assets/Clock.mp4" preload="auto" crossorigin="anonymous" loop muted></video>
+      </a-assets>
 
-    <body style="margin: 0; overflow: hidden;">
-        <a-scene
-            renderer="logarithmicDepthBuffer: true;"
-            embedded
-            loading-screen="enabled: false;"
-            arjs="sourceType: webcam; debugUIEnabled: false;"
-        >
-            <a-assets>
-                <a-asset-item
-                    id="animated-asset"
-                    src="assets/asset.glb"
-                ></a-asset-item>
-            </a-assets>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-                <a-entity
-                    look-at="[gps-camera]"
-                    animation-mixer="loop: repeat"
-                    gltf-model="#animated-asset"
-                    scale="10 10 10"
-                    gps-entity-place="latitude: 42.892095; longitude: 13.832433;"
-                ></a-entity>
+      <a-entity mindar-image-target="targetIndex: 0" id="target0">
+        <a-video 
+          src="#lavaVideo" 
+          width="1" 
+          height="0.5625" 
+          position="0 0 0" 
+          rotation="0 0 0"
+          autoplay
+        ></a-video>
+      </a-entity>
 
-            <a-camera gps-camera rotation-reader></a-camera>
-        </a-scene>
-    </body>
+      <a-entity mindar-image-target="targetIndex: 1" id="target1">
+        <a-video 
+          src="#clockVideo" 
+          width="1" 
+          height="0.5625" 
+          position="0 0 0" 
+          rotation="0 0 0"
+          autoplay
+        ></a-video>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const lavaVideo = document.querySelector("#lavaVideo");
+        const clockVideo = document.querySelector("#clockVideo");
+
+        const target0 = document.querySelector("#target0");
+        const target1 = document.querySelector("#target1");
+
+        target0.addEventListener("targetFound", () => {
+          lavaVideo.play();
+        });
+        target0.addEventListener("targetLost", () => {
+          lavaVideo.pause();
+        });
+
+        target1.addEventListener("targetFound", () => {
+          clockVideo.play();
+        });
+        target1.addEventListener("targetLost", () => {
+          clockVideo.pause();
+        });
+      });
+    </script>
+  </body>
 </html>
