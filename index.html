@@ -14,56 +14,35 @@
     >
       <a-assets>
         <video id="lavaVideo" src="./assets/Lava.mp4" preload="auto" crossorigin="anonymous" loop muted playsinline></video>
-        <video id="clockVideo" src="./assets/Clock.mp4" preload="auto" crossorigin="anonymous" loop muted playsinline></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- CORRETTO: targetIndex 0 ora avvia Lava -->
+      <!-- Target 0: mostra video Lava con risoluzione 1.1 x 1.1 -->
       <a-entity mindar-image-target="targetIndex: 0" id="target0">
         <a-video 
           src="#lavaVideo" 
           width="1.1" 
-          height="0.61875" 
+          height="1.1" 
           position="0 0 0" 
           rotation="0 0 0"
         ></a-video>
       </a-entity>
 
-      <!-- CORRETTO: targetIndex 1 ora avvia Clock -->
-      <a-entity mindar-image-target="targetIndex: 1" id="target1">
-        <a-video 
-          src="#clockVideo" 
-          width="1.1" 
-          height="0.61875" 
-          position="0 0 0" 
-          rotation="0 0 0"
-        ></a-video>
-      </a-entity>
+      <!-- Target 1: non fa nulla -->
+      <a-entity mindar-image-target="targetIndex: 1" id="target1"></a-entity>
     </a-scene>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const lavaVideo = document.querySelector("#lavaVideo");
-        const clockVideo = document.querySelector("#clockVideo");
-
         const target0 = document.querySelector("#target0");
-        const target1 = document.querySelector("#target1");
 
-        // forza play al target 0 (Lava)
         target0.addEventListener("targetFound", () => {
           lavaVideo.play();
         });
         target0.addEventListener("targetLost", () => {
           lavaVideo.pause();
-        });
-
-        // forza play al target 1 (Clock)
-        target1.addEventListener("targetFound", () => {
-          clockVideo.play();
-        });
-        target1.addEventListener("targetLost", () => {
-          clockVideo.pause();
         });
       });
     </script>
